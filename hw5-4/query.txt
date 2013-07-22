@@ -1,0 +1,4 @@
+db.zips.aggregate({$match: {city: /\d.*/i}},
+ {$project:{city:1, pop:1, state:1, _id:1}},
+ {$group: {_id:{state:"$state", city:"$city"}, pop: {$sum:"$pop"}}},
+ {$group: {_id: 1, pop:{$sum:'$pop'}}})
