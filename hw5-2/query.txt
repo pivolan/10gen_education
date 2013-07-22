@@ -1,0 +1,7 @@
+Please calculate the average population of cities in California (abbreviation CA) and New York (NY) (taken together) with populations over 25,000.
+надо сложить по индексам каждый город.
+
+db.zips.aggregate({$match: {$or:[{state:"CA"}, {state:"NY"}]}},
+ {$project:{city:1, pop:1, state:1, _id:1}},
+ {$group: {_id:{state:"$state", city:"$city"}, pop: {$sum:"$pop"}}},
+ {$match:{pop:{$gte:25000}}}, {$group: {_id: 1, pop:{$avg:'$pop'}}})
